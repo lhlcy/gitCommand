@@ -1,0 +1,370 @@
+<html>
+  <head>
+	  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>Git-速查表</title>
+		<link href="toc/style/github-bf51422f4bb36427d391e4b75a1daa083c2d840e.css" media="all" rel="stylesheet" type="text/css"/>
+		<link href="toc/style/github2-d731afd4f624c99a4b19ad69f3083cd6d02b81d5.css" media="all" rel="stylesheet" type="text/css"/>
+		<link href="toc/css/zTreeStyle/zTreeStyle.css" media="all" rel="stylesheet" type="text/css"/>
+	  <style>
+		pre {
+		    counter-reset: line-numbering;
+		    border: solid 1px #d9d9d9;
+		    border-radius: 0;
+		    background: #fff;
+		    padding: 0;
+		    line-height: 23px;
+		    margin-bottom: 30px;
+		    white-space: pre;
+		    overflow-x: auto;
+		    word-break: inherit;
+		    word-wrap: inherit;
+		}
+
+		pre a::before {
+		  content: counter(line-numbering);
+		  counter-increment: line-numbering;
+		  padding-right: 1em; /* space after numbers */
+		  width: 25px;
+		  text-align: right;
+		  opacity: 0.7;
+		  display: inline-block;
+		  color: #aaa;
+		  background: #eee;
+		  margin-right: 16px;
+		  padding: 2px 10px;
+		  font-size: 13px;
+		  -webkit-touch-callout: none;
+		  -webkit-user-select: none;
+		  -khtml-user-select: none;
+		  -moz-user-select: none;
+		  -ms-user-select: none;
+		  user-select: none;
+		}
+
+		pre a:first-of-type::before {
+		  padding-top: 10px;
+		}
+
+		pre a:last-of-type::before {
+		  padding-bottom: 10px;
+		}
+
+		pre a:only-of-type::before {
+		  padding: 10px;
+		}
+
+		.highlight { background-color: #ffffcc } /* RIGHT */
+		</style>
+  </head>
+  <body>
+	  <div>
+				<div style='width:25%;'>
+						<ul id="tree" class="ztree" style='width:100%'>
+
+						</ul>
+				</div>
+        <div id='readme' style='width:70%;margin-left:20%;'>
+          	<article class='markdown-body'>
+            	<h1 id="git">Git</h1>
+<h2 id="emoji-">emoji指南</h2>
+<pre><code>:art:            改进结构和代码格式
+:zap:            优化性能
+:fire:            移除代码或文件
+:bug:            修复bug
+:sparkles:        引入新功能
+:memo:            写文档
+:rocket:        部署新功能
+
+:white_check_mark:    添加测试用例
+:bookmark:            发版、标签
+:lock:                修复安全问题
+:construction:        工作进行中
+:arrow_dowm:        降级依赖库
+
+:checkered_flag:    修复windows下问题
+:arrow_up:            升级依赖库
+:construction_worker:    添加CI构建系统
+:wrench:        改变配置文件
+:hammer:        大重构
+:tada:            初次提交
+:lipstick:        升级UI和样式文件
+</code></pre><h2 id="-">命令</h2>
+<h3 id="-">配置</h3>
+<p>列出当前配置：</p>
+<pre><code>$ git config --list
+</code></pre><p>列出repository配置：</p>
+<pre><code>$ git config --local --list
+</code></pre><p>列出全局配置：</p>
+<pre><code>$ git config --global --list
+</code></pre><p>列出系统配置：</p>
+<pre><code>$ git config --system --list
+</code></pre><p>设置用户名：</p>
+<pre><code>$ git config --global user.name “[firstname lastname]”
+</code></pre><p>设置用户邮箱：</p>
+<pre><code>$ git config --global user.email “[valid-email]”
+</code></pre><p>设置git命令输出为彩色：</p>
+<pre><code>$ git config --global color.ui auto
+</code></pre><p>设置git使用的文本编辑器设：</p>
+<pre><code>$ git config --global core.editor vi
+</code></pre><h3 id="-">配置文件</h3>
+<p>Repository配置对应的配置文件路径[--local]：</p>
+<pre><code>&lt;repo&gt;/.git/config
+</code></pre><p>用户全局配置对应的配置文件路径[--global]：</p>
+<pre><code>~/.gitconfig
+</code></pre><p>系统配置对应的配置文件路径[--local]：</p>
+<pre><code>/etc/gitconfig
+</code></pre><h3 id="-">创建</h3>
+<p>复制一个已创建的仓库:</p>
+<p>通过 SSH</p>
+<pre><code>$ git clone ssh://user@domain.com/repo.git
+</code></pre><p>通过 HTTP</p>
+<pre><code>$ git clone http://domain.com/user/repo.git
+</code></pre><p>创建一个新的本地仓库:</p>
+<pre><code>$ git init
+</code></pre><h3 id="-">本地修改</h3>
+<p>显示工作路径下已修改的文件：</p>
+<pre><code>$ git status
+</code></pre><p>显示与上次提交版本文件的不同：</p>
+<pre><code>$ git diff
+</code></pre><p>把当前所有修改添加到下次提交中：</p>
+<pre><code>$ git add .
+</code></pre><p>把对某个文件的修改添加到下次提交中：</p>
+<pre><code>$ git add -p &lt;file&gt;
+</code></pre><p>提交本地的所有修改：</p>
+<pre><code>$ git commit -a
+</code></pre><p>提交之前已标记的变化：</p>
+<pre><code>$ git commit
+</code></pre><p>附加消息提交：</p>
+<pre><code>$ git commit -m &#39;message here&#39;
+</code></pre><p>提交，并将提交时间设置为之前的某个日期:</p>
+<pre><code>git commit --date=&quot;`date --date=&#39;n day ago&#39;`&quot; -am &quot;Commit Message&quot;
+</code></pre><p>修改上次提交（请勿修改已发布的提交记录!）</p>
+<pre><code>$ git commit --amend
+</code></pre><p>修改上次提交的committer date：</p>
+<pre><code>GIT_COMMITTER_DATE=&quot;date&quot; git commit --amend
+</code></pre><p>修改上次提交的author date：</p>
+<pre><code>git commit --amend --date=&quot;date&quot;
+</code></pre><p>把当前分支中未提交的修改移动到其他分支：</p>
+<pre><code>git stash
+git checkout branch2
+git stash pop
+</code></pre><p>将 stashed changes 应用到当前分支：</p>
+<pre><code>git stash apply
+</code></pre><p>删除最新一次的 stashed changes：</p>
+<pre><code>git stash drop
+</code></pre><p>搜索</p>
+<p>从当前目录的所有文件中查找文本内容：</p>
+<pre><code>$ git grep &quot;Hello&quot;
+</code></pre><p>在某一版本中搜索文本：</p>
+<pre><code>$ git grep &quot;Hello&quot; v2.5
+</code></pre><h3 id="-">提交历史</h3>
+<p>从最新提交开始，显示所有的提交记录（显示hash， 作者信息，提交的标题和时间）：</p>
+<pre><code>$ git log
+</code></pre><p>显示所有提交（仅显示提交的hash和message）：</p>
+<pre><code>$ git log --oneline
+</code></pre><p>显示某个用户的所有提交：</p>
+<pre><code>$ git log --author=&quot;username&quot;
+</code></pre><p>显示某个文件的所有修改：</p>
+<pre><code>$ git log -p &lt;file&gt;
+</code></pre><p>仅显示远端分支与远端分支提交记录的差集：</p>
+<pre><code>$ git log --oneline &lt;origin/master&gt;..&lt;remote/master&gt; --left-right
+</code></pre><p>谁，在什么时间，修改了文件的什么内容：</p>
+<pre><code>$ git blame &lt;file&gt;
+</code></pre><p>显示reflog：</p>
+<pre><code>$ git reflog show
+</code></pre><p>删除reflog：</p>
+<pre><code>$ git reflog delete
+</code></pre><h3 id="-">分支与标签</h3>
+<p>列出所有的分支：</p>
+<pre><code>$ git branch
+</code></pre><p>列出所有的远端分支：</p>
+<pre><code>$ git branch -r
+</code></pre><p>切换分支：</p>
+<pre><code>$ git checkout &lt;branch&gt;
+</code></pre><p>创建并切换到新分支:</p>
+<pre><code>$ git checkout -b &lt;branch&gt;
+</code></pre><p>基于当前分支创建新分支：</p>
+<pre><code>$ git branch &lt;new-branch&gt;
+</code></pre><p>基于远程分支创建新的可追溯的分支：</p>
+<pre><code>$ git branch --track &lt;new-branch&gt; &lt;remote-branch&gt;
+</code></pre><p>删除本地分支:</p>
+<pre><code>$ git branch -d &lt;branch&gt;
+</code></pre><p>强制删除一个本地分支：（将会丢失未合并的修改！）</p>
+<pre><code>$ git branch -D &lt;branch&gt;
+</code></pre><p>给当前版本打标签：</p>
+<pre><code>$ git tag &lt;tag-name&gt;
+</code></pre><p>给当前版本打标签并附加消息：</p>
+<pre><code>$ git tag -a &lt;tag-name&gt;
+</code></pre><h3 id="-">更新与发布</h3>
+<p>列出当前配置的远程端：</p>
+<pre><code>$ git remote -v
+</code></pre><p>显示远程端的信息：</p>
+<pre><code>$ git remote show &lt;remote&gt;
+</code></pre><p>添加新的远程端：</p>
+<pre><code>$ git remote add &lt;remote&gt; &lt;url&gt;
+</code></pre><p>下载远程端版本，但不合并到HEAD中：</p>
+<pre><code>$ git fetch &lt;remote&gt;
+</code></pre><p>下载远程端版本，并自动与HEAD版本合并：</p>
+<pre><code>$ git remote pull &lt;remote&gt; &lt;url&gt;
+</code></pre><p>将远程端版本合并到本地版本中：</p>
+<pre><code>$ git pull origin master
+</code></pre><p>以rebase方式将远端分支与本地合并：</p>
+<pre><code>$ git pull --rebase &lt;remote&gt; &lt;branch&gt;
+</code></pre><p>将本地版本发布到远程端：</p>
+<pre><code>$ git push remote &lt;remote&gt; &lt;branch&gt;
+</code></pre><p>删除远程端分支：</p>
+<pre><code>$ git push &lt;remote&gt; :&lt;branch&gt; (since Git v1.5.0)
+or
+$ git push &lt;remote&gt; --delete &lt;branch&gt; (since Git v1.7.0)
+</code></pre><p>发布标签:</p>
+<pre><code>$ git push --tags
+</code></pre><h3 id="-rebase-">合并与重置(Rebase)</h3>
+<p>将分支合并到当前HEAD中：</p>
+<pre><code>$ git merge &lt;branch&gt;
+</code></pre><p>将当前HEAD版本重置到分支中:</p>
+<p>请勿重置已发布的提交!</p>
+<pre><code>$ git rebase &lt;branch&gt;
+</code></pre><p>退出重置:</p>
+<pre><code>$ git rebase --abort
+</code></pre><p>解决冲突后继续重置：</p>
+<pre><code>$ git rebase --continue
+</code></pre><p>使用配置好的merge tool 解决冲突：</p>
+<pre><code>$ git mergetool
+</code></pre><p>在编辑器中手动解决冲突后，标记文件为已解决冲突：</p>
+<pre><code>$ git add &lt;resolved-file&gt;
+$ git rm &lt;resolved-file&gt;
+</code></pre><p>合并提交：</p>
+<pre><code>$ git rebase -i &lt;commit-just-before-first&gt;
+</code></pre><p>把上面的内容替换为下面的内容：</p>
+<p>原内容：</p>
+<pre><code>pick &lt;commit_id&gt;
+pick &lt;commit_id2&gt;
+pick &lt;commit_id3&gt;
+</code></pre><p>替换为：</p>
+<pre><code>pick &lt;commit_id&gt;
+squash &lt;commit_id2&gt;
+squash &lt;commit_id3&gt;
+</code></pre><h3 id="-">撤销</h3>
+<p>放弃工作目录下的所有修改：</p>
+<pre><code>$ git reset --hard HEAD
+</code></pre><p>移除缓存区的所有文件（i.e. 撤销上次git add）:</p>
+<pre><code>$ git reset HEAD
+</code></pre><p>放弃某个文件的所有本地修改：</p>
+<pre><code>$ git checkout HEAD &lt;file&gt;
+</code></pre><p>重置一个提交（通过创建一个截然不同的新提交）</p>
+<pre><code>$ git revert &lt;commit&gt;
+</code></pre><p>将HEAD重置到指定的版本，并抛弃该版本之后的所有修改：</p>
+<pre><code>$ git reset --hard &lt;commit&gt;
+</code></pre><p>用远端分支强制覆盖本地分支：</p>
+<pre><code>git reset --hard &lt;remote/branch&gt; e.g., upstream/master, origin/my-feature
+</code></pre><p>将HEAD重置到上一次提交的版本，并将之后的修改标记为未添加到缓存区的修改：</p>
+<pre><code>$ git reset &lt;commit&gt;
+</code></pre><p>将HEAD重置到上一次提交的版本，并保留未提交的本地修改：</p>
+<pre><code>$ git reset --keep &lt;commit&gt;
+</code></pre><p>删除添加.gitignore文件前错误提交的文件：</p>
+<pre><code>$ git rm -r --cached .
+$ git add .
+$ git commit -m &quot;remove xyz file&quot;
+</code></pre><h3 id="git-flow">Git-Flow</h3>
+<p>索引</p>
+<p>安装
+开始
+特性
+做一个release版本
+紧急修复
+Commands
+安装</p>
+<p>你需要有一个可以工作的 git 作为前提。
+Git flow 可以工作在 OSX, Linux 和 Windows之下
+OSX Homebrew:</p>
+<pre><code>$ brew install git-flow
+</code></pre><p>OSX Macports:</p>
+<pre><code>$ port install git-flow
+</code></pre><p>Linux:</p>
+<pre><code>$ apt-get install git-flow
+</code></pre><p>Windows (Cygwin):</p>
+<p>安装 git-flow, 你需要 wget 和 util-linux。</p>
+<pre><code>$ wget -q -O - --no-check-certificate https://github.com/nvie/gitflow/raw/develop/contrib/gitflow-installer.sh | bash
+</code></pre><p>开始</p>
+<p>为了自定义你的项目，Git flow 需要初始化过程。
+使用 git-flow，从初始化一个现有的 git 库内开始。
+初始化，你必须回答几个关于分支的命名约定的问题。建议使用默认值。
+    git flow init
+特性</p>
+<p>为即将发布的版本开发新功能特性。
+这通常只存在开发者的库中。
+创建一个新特性:</p>
+<p>下面操作创建了一个新的feature分支，并切换到该分支</p>
+<pre><code>git flow feature start MYFEATURE
+</code></pre><p>完成新特性的开发:</p>
+<p>完成开发新特性。这个动作执行下面的操作：</p>
+<p>合并 MYFEATURE 分支到 &#39;develop&#39;
+删除这个新特性分支
+切换回 &#39;develop&#39; 分支
+    git flow feature finish MYFEATURE
+发布新特性:</p>
+<p>你是否合作开发一项新特性？
+发布新特性分支到远程服务器，所以，其它用户也可以使用这分支。</p>
+<pre><code>git flow feature publish MYFEATURE
+</code></pre><p>取得一个发布的新特性分支:</p>
+<p>取得其它用户发布的新特性分支。</p>
+<pre><code>git flow feature pull origin MYFEATURE
+</code></pre><p>追溯远端上的特性:</p>
+<p>通过下面命令追溯远端上的特性</p>
+<pre><code>git flow feature track MYFEATURE
+</code></pre><p>做一个release版本</p>
+<p>支持一个新的用于生产环境的发布版本。
+允许修正小问题，并为发布版本准备元数据。
+开始创建release版本:</p>
+<p>开始创建release版本，使用 git flow release 命令。
+&#39;release&#39; 分支的创建基于 &#39;develop&#39; 分支。
+你可以选择提供一个 [BASE]参数，即提交记录的 sha-1 hash 值，来开启动 release 分支。
+这个提交记录的 sha-1 hash 值必须是&#39;develop&#39; 分支下的。
+    git flow release start RELEASE [BASE]
+创建 release 分支之后立即发布允许其它用户向这个 release 分支提交内容是个明智的做法。命令十分类似发布新特性：</p>
+<pre><code>git flow release publish RELEASE
+</code></pre><p>(你可以通过
+    git flow release track RELEASE 命令追溯远端的 release 版本)</p>
+<p>完成 release 版本:</p>
+<p>完成 release 版本是一个大 git 分支操作。它执行下面几个动作：</p>
+<p>归并 release 分支到 &#39;master&#39; 分支。
+用 release 分支名打 Tag
+归并 release 分支到 &#39;develop&#39;
+移除 release 分支。
+git flow release finish RELEASE
+不要忘记使用git push --tags将tags推送到远端</p>
+<p>紧急修复</p>
+<p>紧急修复来自这样的需求：生产环境的版本处于一个不预期状态，需要立即修正。有可能是需要修正 master 分支上某个 TAG 标记的生产版本。</p>
+<p>开始 git flow 紧急修复:</p>
+<p>像其它 git flow 命令一样, 紧急修复分支开始自：</p>
+<pre><code>$ git flow hotfix start VERSION [BASENAME]
+</code></pre><p>VERSION 参数标记着修正版本。你可以从 [BASENAME]开始，[BASENAME]`为finish release时填写的版本号</p>
+<p>完成紧急修复:</p>
+<p>当完成紧急修复分支，代码归并回 develop 和 master 分支。相应地，master 分支打上修正版本的 TAG。</p>
+<pre><code>git flow hotfix finish VERSION
+</code></pre><p>Commands</p>
+<p><img src="http://i.imgur.com/nPddna5.png" alt="commands"></p>
+<p>Git flow schema</p>
+<p><img src="http://i.imgur.com/UQld3EJ.png" alt="Git flow schema"></p>
+
+          	</article>
+        </div>
+		</div>
+  </body>
+</html>
+<script type="text/javascript" src="toc/js/jquery-1.4.4.min.js"></script>
+<script type="text/javascript" src="toc/js/jquery.ztree.all-3.5.min.js"></script>
+<script type="text/javascript" src="toc/js/ztree_toc.js"></script>
+<script type="text/javascript" src="toc_conf.js"></script>
+
+<SCRIPT type="text/javascript" >
+<!--
+$(document).ready(function(){
+    var css_conf = eval(markdown_panel_style);
+    $('#readme').css(css_conf)
+
+    var conf = eval(jquery_ztree_toc_opts);
+		$('#tree').ztree_toc(conf);
+});
+//-->
+</SCRIPT>
